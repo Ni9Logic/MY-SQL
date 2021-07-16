@@ -131,93 +131,60 @@ class Admin(SignInPage, NewUser):
                 break
             elif self.admin_choice == 6:
                 quit()
-
     def case1_delete_account():
         os.system("cls||clear")
         delaccount = input("\t\t\tEnter the \u001b[1;31mdesired account\u001b[1;0m you want to \u001b[1;31mdelete\u001b[1;0m: ")
         select_query = "SELECT * FROM user WHERE name=%s"
         database.execute(select_query, (delaccount,))
         if not database.fetchall():
-            print("\t\t\tNo \u001b[1;31mSuch\u001b[1;0m User \u001b[1;31mExists\u001b[1;0m")
-            print("\t\t\tPress Any \u001b[1;31mkey\u001b[1;0m to continue...")
+            print("\t\t\tNo Such User Exists")
+            print("\t\t\tPress Any key to continue...")
             m.getch()
         else:
             delete_query = "DELETE FROM user WHERE name=%s"
             database.execute(delete_query, (delaccount,))
             length = database.fetchall()
             db.commit() #MOST IMPORTANT
+            
             if len(length) == 0:
                 print("\t\t\tAccount \u001b[1;31mdeleted Successfully\u001b[1;0m\n\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue..." )
-                m.getch()    
-
+                m.getch()   
     def case2_display_all_accounts():
         os.system("cls||clear")
         print("\t\t\tHere's the \u001b[1;31mlist of all\u001b[1;0m the accounts below:")
-        display = "SELECT name FROM user"
+        display = "SELECT account_ID, name FROM user"
         database.execute(display)
         displayall = database.fetchall()
-        if database.fetchall():
-            print("\t\t\t", displayall)
+        if not database.fetchall():
+            for row in displayall:
+                print("\t\t\t", row)
             print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
             m.getch()
         else:
-            print("\t\t\t\u001b[1;31mNo\u001b[1;0m Such User \u001b[1;31mFound\u001b[1;0m!")
+            print("\t\t\t\u001b[1;31mNo\u001b[1;0m Such Record \u001b[1;31mFound\u001b[1;0m!")
             print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
             m.getch()
-
     def case3_sepcific_details():
         os.system("cls||clear")
-        index = 0
-        passed = False
         search = input("\t\t\tEnter the \u001b[1;31mname\u001b[1;0m of the user: ")
-        with open("usernames.txt", "r") as file:
-            for lines in file:
-                index = index + 1
-                if lines.strip() == search:
-                    passed = True
-                else:
-                    passed = False
-        if passed:
-            print("\t\t\tUser Found....")
-            time.sleep(1)
-            print("\t\t\t\u001b[1;31mName\u001b[1;0m of the user is: ", lines)
-            with open("passwords.txt", "r") as file:
-                print(
-                    "\t\t\t\u001b[1;31mPassword\u001b[1;0m of the user is: ",
-                    file.readlines(index),
-                )
-            with open("Account_Type.txt", "r") as file:
-                print(
-                    "\t\t\t\u001b[1;31mAccount Type\u001b[1;0m of the user is: ",
-                    file.readlines(index),
-                )
-            with open("BankBal.txt", "r") as file:
-                print(
-                    "\t\t\t\u001b[1;31mBank Balance\u001b[1;0m of the user is: ",
-                    file.readlines(index),
-                )
-            with open("Account_ID.txt", "r") as file:
-                print(
-                    "\t\t\t\u001b[1;31mAccount ID\u001b[1;0m of the user is: ",
-                    file.readlines(index),
-                )
-            print("\t\t\tPress any key to continue...")
+        search_query = "SELECT * FROM user WHERE name=%s"
+        database.execute(search_query, (search,))
+        display = database.fetchall()
+        if not database.fetchall():
+            print("\t\t\tHere's the \u001b[1;31mdata\u001b[1;0m below for user \u001b[1;31m", search, "\u001b[1;0m")
+            for row in display:
+                print("\t\t\t", row)
+            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
             m.getch()
         else:
-            print(
-                "\t\t\tUser \u001b[1;31mnot\u001b[1;0m Found\n\t\t\tPress any \u001b[1;31mkey\u001b[1;0m to continue..."
-            )
+            print("\t\t\tUser \u001b[1;31mnot\u001b[1;0m Found\n\t\t\tPress any \u001b[1;31mkey\u001b[1;0m to continue...")
             m.getch()
-
     def case4_modify_user():
         os.system("cls||clear")
-        modify_user_found = False
         modify_user = input("\t\t\tEnter the name of the user: ")
-        with open("usernames.txt", "r") as file:
-            for line in file:
-                if line.strip() == modify_user:
-                    modify_user_found = True
-        if modify_user_found:
+        modify_query = "SELECT name FROM user Where name=%s"
+        database.execute(modify_query, (modify_user,))
+        if database.fetchall():
             print("\t\t\tUser account found.....")
             time.sleep(1)
             os.system("cls||clear")
@@ -230,54 +197,18 @@ class Admin(SignInPage, NewUser):
                     print("\t\t\t2 --> Update Password")
                     print("\t\t\t3 --> Update Bank Balance")
                     print("\t\t\t4 --> Update Account Type")
-                    print("\t\t\t5 --> Update Account ID")
+                    print("\t\t\t5 --> Update User's Age")
                     Enter = input("\t\t\tEnter <1-5>: ")
             if Enter == "1":
                 os.system("cls||clear")
-                Admin.new_usernames = []
-                new_name_user = input("\t\t\tEnter New Name of the User: ")
-                # I need to test this LOGIC in my code...
-                with open("usernames.txt", "r") as file:
-                    Admin.usernames = []
-                    for line in file:
-                        Admin.usernames.append(line)
-                print("All usernames are: ", Admin.usernames)
-                with open("usernames.txt", "w+") as file:
-                    for line in file:
-                        print("I get in in for loop")
-                        if line.strip() == modify_user:
-                            Admin.new_usernames = Admin.usernames.pop(modify_user)
-                            Admin.new_usernames.append(new_name_user)
-                            print("All new usernames are: ", Admin.new_usernames)
-                            file.write(Admin.new_usernames)
+                new_name = input("\t\t\tEnter New Name for the user: ")
+                update_Name = ("UPDATE user SET name = %s WHERE name=%s", ((new_name,), (modify_user,)))
+                database.execute(update_Name)
+                new_content = database.fetchall()
+                if not database.fetchall():
+                    print("\t\t\tUsername modified Successfully")
+                    print("\t\t\tPress Any Key to continue...")
                     m.getch()
-
-                    """
-                    list = all usernames present in file
-                    for i in range list:
-                        search in list = input
-                        if serachinlist == list[i]
-                            list[i].pop(serachinlist)
-                        newlist = list
-                        newlist = newlist.split()
-                    with open("usernames.txt", "w") as file_write:
-                        file_write(newlist)
-                    """
-
-                    # Commented This LOGIC fails
-                    """
-                    print("\t\t\tYour old username is:", file.readlines(Admin.index))
-                    old_user = file.readlines(Admin.index)
-                    old_user = str(old_user)
-                    new_user = input("\t\t\tYour new username is: ")
-                    file_read = open("usernames.txt", "r")
-                    file_write = open("usernames.txt", "a")
-                    new_user = str(new_user)
-                    for line in file_read:
-                    file_write.write(line.replace(old_user, new_user))
-                    file_read.close()
-                    file_write.close()
-                    """
         else:
             print("\t\t\tUser NOT found\n\t\t\tTry Again Later!\n")
             print("\t\t\tPress ANY key to continue\n")
