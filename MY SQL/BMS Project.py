@@ -4,9 +4,7 @@ import msvcrt as m
 import mysql.connector
 from datetime import datetime
 
-db = mysql.connector.connect(
-    host="localhost", user="root", passwd="root", database="banking"
-)
+db = mysql.connector.connect(host="localhost", user="root", passwd="root", database="banking")
 database = db.cursor()
 
 # I am gonna learn & implement mySQL on this now!
@@ -136,47 +134,36 @@ class Admin(SignInPage, NewUser):
 
     def case1_delete_account():
         os.system("cls||clear")
-        deleted = False
-        delaccount = input(
-            "\t\t\tEnter the \u001b[1;31mdesired account\u001b[1;0m you want to \u001b[1;31mdelete\u001b[1;0m: "
-        )
-        with open("usernames.txt", "r") as file:
-            with open("tempusers.txt", "w") as tempfile:
-                for line in file:
-                    if line.strip() != delaccount:
-                        tempfile.write(line)
-                        deleted = False
-                    elif line.strip() == delaccount:
-                        deleted = True
-
-        os.remove("usernames.txt")
-        os.rename("tempusers.txt", "usernames.txt")
-        if deleted == True:
-            print(
-                "\t\t\tAccount \u001b[1;31mdeleted Successfully\u001b[1;0m\n\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue..."
-            )
+        delaccount = input("\t\t\tEnter the \u001b[1;31mdesired account\u001b[1;0m you want to \u001b[1;31mdelete\u001b[1;0m: ")
+        select_query = "SELECT * FROM user WHERE name=%s"
+        database.execute(select_query, (delaccount,))
+        if not database.fetchall():
+            print("\t\t\tNo \u001b[1;31mSuch\u001b[1;0m User \u001b[1;31mExists\u001b[1;0m")
+            print("\t\t\tPress Any \u001b[1;31mkey\u001b[1;0m to continue...")
             m.getch()
         else:
-            print("\t\t\t\u001b[1;31mNo Such\u001b[1;0m Username found!\n")
-            print("\t\t\tPress any \u001b[1;31mkey\u001b[1;0m to continue...")
-            m.getch()
+            delete_query = "DELETE FROM user WHERE name=%s"
+            database.execute(delete_query, (delaccount,))
+            length = database.fetchall()
+            db.commit() #MOST IMPORTANT
+            if len(length) == 0:
+                print("\t\t\tAccount \u001b[1;31mdeleted Successfully\u001b[1;0m\n\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue..." )
+                m.getch()    
 
     def case2_display_all_accounts():
         os.system("cls||clear")
-        totalaccounts = 0
-        counter = 0
         print("\t\t\tHere's the \u001b[1;31mlist of all\u001b[1;0m the accounts below:")
-        with open("usernames.txt", "r") as file:
-            for lines in file:
-                totalaccounts = totalaccounts + 1
-                counter = counter + 1
-                print("\t\t\t", counter, ".", lines)
-        print(
-            "\t\t\tThere are total of\u001b[1;31m",
-            totalaccounts,
-            "\u001b[1;0maccounts present currently\n\t\t\tPress any \u001b[1;31mkey\u001b[1;0m to continue...",
-        )
-        m.getch()
+        display = "SELECT name FROM user"
+        database.execute(display)
+        displayall = database.fetchall()
+        if database.fetchall():
+            print("\t\t\t", displayall)
+            print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+            m.getch()
+        else:
+            print("\t\t\t\u001b[1;31mNo\u001b[1;0m Such User \u001b[1;31mFound\u001b[1;0m!")
+            print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+            m.getch()
 
     def case3_sepcific_details():
         os.system("cls||clear")
