@@ -307,27 +307,21 @@ class User(SignInPage, NewUser):
                 quit()
     def case1_Check_Account_Details():
         os.system("cls||clear")
-        confirm_password = input("\t\t\tKindly \u001b[1;31mRe-Enter\u001b[1;0m Your \u001b[1;31mpassword\u001b[1;0m to confirm your \u001b[1;31midentity\u001b[1;0m: ")
-        account_details = "SELECT * FROM user WHERE password=%s"
-        database.execute(account_details, (confirm_password,))
+        account_details = "SELECT * FROM user WHERE name=%s"
+        database.execute(account_details, (SignInPage.user_name,))
         display_user_Record  = database.fetchall()
-        database.execute(account_details, (confirm_password,))
-        if database.fetchall():
-            os.system("cls||clear")
-            print("\t\t\tHere is the \u001b[1;31mLIST\u001b[1;0m your \u001b[1;31maccount details\u001b[1;0m")
-            print("\n\t\t\t", display_user_Record)
-            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
-            m.getch()
-        else:
-            print("\t\t\t\u001b[1;31mIncorrect Password\u001b[1;0m")
-            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
-            m.getch()
+        print("\t\t\tHere is the \u001b[1;31mLIST\u001b[1;0m your \u001b[1;31maccount details\u001b[1;0m")
+        print("\n\t\t\t", display_user_Record , "\n")
+        print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
+        m.getch()        
     def case2_Withdraw_Amount():
         os.system("cls||clear")
         withdraw_query = "SELECT bankbal FROM user WHERE name=%s"
         database.execute(withdraw_query, (SignInPage.user_name,))
         get_bankbal_fromdb  = database.fetchone()
-        print("\t\t\tYour Current Bank Balance is:", get_bankbal_fromdb)
+        print("\t\t\tYour Current Bank Balance is:", get_bankbal_fromdb ," rs/-")
+        withdraw = float(input("Enter the amount you want to withdraw: "))
+        
         m.getch()        
 
 def main():
