@@ -1,4 +1,5 @@
 import os
+from re import I
 import time
 import msvcrt as m
 import mysql.connector
@@ -56,16 +57,17 @@ class SignInPage:
     def userlogin(self):
         os.system("cls||clear")
         check = "0"
-        self.user_name = input("\t\t\tEnter \u001b[1;31mUsername\u001b[1;0m: ")
-        self.user_pass = input("\t\t\tEnter \u001b[1;31mPassword\u001b[1;0m: ")
-
+        self.username = input("\t\t\tEnter \u001b[1;31mUsername\u001b[1;0m: ")
+        self.userpass = input("\t\t\tEnter \u001b[1;31mPassword\u001b[1;0m: ")
         matchpass = "SELECT password FROM user WHERE name=%s"
-        database.execute(matchpass, (self.user_name,)) #Check's if the password is present in the database! If it's present it loads it!
+        database.execute(matchpass, (self.username,)) #Check's if the password is present in the database! If it's present it loads it!
         check = database.fetchone()
-        cred = (('{}').format(self.user_pass),)
+        cred = (('{}').format(self.userpass),)
         if check == cred:
             SignInPage.Logged = True
-            print("\t\t\tYou have logged in successfully as\u001b[1;31m", self.user_name, "\u001b[1;0m")
+            SignInPage.user_name = self.username
+            SignInPage.user_pass = self.userpass
+            print("\t\t\tYou have logged in successfully as\u001b[1;31m", self.username, "\u001b[1;0m")
             time.sleep(1)
         else:
             SignInPage.Logged = False
@@ -216,9 +218,9 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
                     Enter = input("\t\t\tEnter \u001b[1;31m<1-5>\u001b[1;0m: ")
             if Enter == "1":
                 os.system("cls||clear")
-                new_Age = input("\t\t\tEnter \u001b[1;31mNew Name\u001b[1;0m for the user: ")
+                new_Name = input("\t\t\tEnter \u001b[1;31mNew Name\u001b[1;0m for the user: ")
                 update_Name = ("UPDATE user SET name = %s WHERE name=%s")
-                database.execute(update_Name, (new_Age, modify_user,))
+                database.execute(update_Name, (new_Name, modify_user,))
                 db.commit()
                 if not database.fetchall():
                     print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
@@ -229,9 +231,9 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
                     m.getch()
             elif Enter == "2":
                 os.system("cls||clear")
-                new_Age = input("\t\t\tEnter \u001b[1;31mNew Password\u001b[1;0m for the user: ")
-                update_Name = ("UPDATE user SET password = %s WHERE name=%s")
-                database.execute(update_Name, (new_Age, modify_user,))
+                new_Pass = input("\t\t\tEnter \u001b[1;31mNew Password\u001b[1;0m for the user: ")
+                update_Pass = ("UPDATE user SET password = %s WHERE name=%s")
+                database.execute(update_Pass, (new_Pass, modify_user,))
                 db.commit()
                 if not database.fetchall():
                     print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
@@ -242,9 +244,9 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
                     m.getch()
             elif Enter == "3":
                 os.system("cls||clear")
-                new_Age = input("\t\t\tEnter \u001b[1;31mNew Bank Balance\u001b[1;0m for the user: ")
-                update_Name = ("UPDATE user SET bankbal = %s WHERE name=%s")
-                database.execute(update_Name, (new_Age, modify_user,))
+                new_BankBal = input("\t\t\tEnter \u001b[1;31mNew Bank Balance\u001b[1;0m for the user: ")
+                update_Bankbal = ("UPDATE user SET bankbal = %s WHERE name=%s")
+                database.execute(update_Bankbal, (new_BankBal, modify_user,))
                 db.commit()
                 if not database.fetchall():
                     print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
@@ -255,9 +257,9 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
                     m.getch()
             elif Enter == "4":
                 os.system("cls||clear")
-                new_Age = input("\t\t\tEnter \u001b[1;31mNew Bank Balance\u001b[1;0m for the user: ")
-                update_Name = ("UPDATE user SET account_Type = %s WHERE name=%s")
-                database.execute(update_Name, (new_Age, modify_user,))
+                new_Acc_Type = input("\t\t\tEnter \u001b[1;31mNew Account Type\u001b[1;0m for the user: ")
+                update_Acc_Type = ("UPDATE user SET account_Type = %s WHERE name=%s")
+                database.execute(update_Acc_Type, (new_Acc_Type, modify_user,))
                 db.commit()
                 if not database.fetchall():
                     print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
@@ -268,16 +270,18 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
                     m.getch()
             elif Enter == "5":
                 os.system("cls||clear")
-                new_Age = input("\t\t\tEnter \u001b[1;31mNew Bank Balance\u001b[1;0m for the user: ")
-                update_Name = ("UPDATE user SET age = %s WHERE name=%s")
-                database.execute(update_Name, (new_Age, modify_user,))
+                new_Age = input("\t\t\tEnter \u001b[1;31mNew User's Age\u001b[1;0m for the user: ")
+                update_Age = ("UPDATE user SET age = %s WHERE name=%s")
+                database.execute(update_Age, (new_Age, modify_user,))
                 db.commit()
-                if not database.fetchall():
+                database.execute(update_Age, (new_Age, modify_user,))
+                if database.fetchone():
                     print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
                     print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
                     m.getch()
                 else:
-                    print("\t\t\t\u001b[1;31mError!\u001b[1;0m")
+                    print("\t\t\tUser \u001b[1;31mNOT Found\u001b[1;0m\n")
+                    print("\t\t\tPress \u001b[1;31mANY\u001b[1;0m key to continue\n")
                     m.getch()
         else:
             print("\t\t\tUser \u001b[1;31mNOT Found\u001b[1;0m\n")
@@ -341,25 +345,11 @@ class User(SignInPage, NewUser):
             m.getch()
     def case2_Withdraw_Amount():
         os.system("cls||clear")
-        confirm_password = input("\t\t\tKindly \u001b[1;31mRe-Enter\u001b[1;0m Your \u001b[1;31mpassword\u001b[1;0m to confirm your \u001b[1;31midentity\u001b[1;0m: ")
-        withdraw_query = "SELECT bankbal FROM user WHERE password=%s"
-        database.execute(withdraw_query, (confirm_password,))
+        withdraw_query = "SELECT bankbal FROM user WHERE name=%s"
+        database.execute(withdraw_query, (SignInPage.user_name,))
         get_bankbal_fromdb  = database.fetchone()
-        print("\t\t\t", get_bankbal_fromdb)
-        m.getch()
-        database.execute(withdraw_query, (confirm_password,))
-        if database.fetchall():
-            os.system("cls||clear")
-            print("\t\t\tYou've successfully logged in...")
-            time.sleep(.50)
-            os.system("cls||clear")
-            
-            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
-            m.getch()
-        else:
-            print("\t\t\t\u001b[1;31mIncorrect Password\u001b[1;0m")
-            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
-            m.getch()
+        print("\t\t\tYour Current Bank Balance is:", get_bankbal_fromdb)
+        m.getch()        
 
 def main():
     end = "y"
