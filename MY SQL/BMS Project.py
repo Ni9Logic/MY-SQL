@@ -14,13 +14,13 @@ class SignInPage:
     userchoice = 1
     admin_name = "0"
     admin_pass = "0"
+    user_name = "0"
+    user_pass = "0"
     Logged = False
 
     def login(self):
         os.system("cls||clear")
-        print(
-            "\t\t\tWelcome to \u001b[1;31mSUNUDSS KA BANK! HAHAHA MERA BANK\u001b[1;0m"
-        )
+        print("\t\t\tWelcome to \u001b[1;31mSUNUDSS KA BANK! HAHAHA MERA BANK\u001b[1;0m")
         print("\t\t\t1 \u001b[1;31m-->\u001b[1;0m Sign in as admin")
         print("\t\t\t2 \u001b[1;31m-->\u001b[1;0m Sign in as user")
         print("\t\t\t3 \u001b[1;31m-->\u001b[1;0m Create a New Account")
@@ -33,27 +33,38 @@ class SignInPage:
                 self.user_choice = input("\t\t\tEnter Again: ")
                 self.user_choice = int(self.user_choice)
         return self.user_choice
-
     def adminlogin(self):
         os.system("cls||clear")
         self.admin_name = input("\t\t\tEnter \u001b[1;31mUsername\u001b[1;0m: ")
         self.admin_pass = input("\t\t\tEnter \u001b[1;31mPassword\u001b[1;0m: ")
         if self.admin_name == "admin" and self.admin_pass == "admin":
             os.system("cls||clear")
-            print("\n\t\t\tYou've Successfully \u001b[1;31mlogged\u001b[1;0m in as an a\u001b[1;31mdministrator\u001b[1;0m...")
+            print("\n\t\t\tYou've Successfully \u001b[1;31mlogged\u001b[1;0m in as an \u001b[1;31madministrator\u001b[1;0m...")
             time.sleep(1)
             SignInPage.Logged = True
         else:
             os.system("cls||clear")
-            print(
-                "\t\t\t\u001b[1;31mNOTE:\u001b[1;0m You've entered incorrect \u001b[1;31mCredentials\u001b[1;0m"
-            )
+            print("\t\t\t\u001b[1;31mNOTE:\u001b[1;0m You've entered incorrect \u001b[1;31mCredentials\u001b[1;0m")
             print("\t\t\tForcing session \u001b[1;31m(logged out)\u001b[1;0m\n")
             print("\t\t\tPress Any Key to continue...")
             m.getch()
             SignInPage.Logged = False
-
-
+    def userlogin(self):
+        os.system("cls||clear")
+        self.user_name = input("\t\t\tEnter \u001b[1;31mUsername\u001b[1;0m: ")
+        self.user_pass = input("\t\t\tEnter \u001b[1;31mPassword\u001b[1;0m: ")
+        matchpass = "SELECT password FROM user WHERE password=%s"
+        database.execute(matchpass, (self.user_pass,)) #Check's if the password is present in the database! If it's present it loads it!
+        check = database.fetchall()
+        print(check)
+        cred = [(('{}').format(self.user_pass),)]
+        print(cred)
+        if check == cred:
+            print("\t\t\tYou have logged in successfully as", self.user_name)
+            m.getch()
+        else:
+            print("\t\t\tYou've entered incorrect credentials")
+            m.getch()
 class NewUser:
     created = datetime.now()
     new_user_name = "0"
@@ -83,8 +94,6 @@ class NewUser:
                 # Uploading into database
                 database.execute("INSERT INTO User (created, name, age, password, bankbal, account_Type) VALUES(%s, %s, %s, %s, %s, %s)", (self.created, self.new_user_name, self.new_user_age, self.new_user_pass, self.new_user_BankBal, self.new_user_Account_Type))
                 db.commit()
-
-
 class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
     username = "0"
     password = "0"
@@ -269,7 +278,6 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
             print("\t\t\tPress \u001b[1;31mANY\u001b[1;0m key to continue\n")
             m.getch()
 
-
 def main():
     end = "y"
     while end == "y":
@@ -286,11 +294,11 @@ def main():
                     continue
             else:
                 continue
+        elif Signin.user_choice == 2:
+            Signin.userlogin()
         elif Signin.user_choice == 3:
             newuser.new_user_createaccount()
         elif Signin.user_choice == 4:
             quit()
     return 0
-
-
 main()
