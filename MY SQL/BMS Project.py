@@ -85,7 +85,7 @@ class NewUser:
                 db.commit()
 
 
-class Admin(SignInPage, NewUser):
+class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
     username = "0"
     password = "0"
     admin_choice = 0
@@ -181,11 +181,11 @@ class Admin(SignInPage, NewUser):
             m.getch()
     def case4_modify_user():
         os.system("cls||clear")
-        modify_user = input("\t\t\tEnter the name of the user: ")
+        modify_user = input("\t\t\tEnter the \u001b[1;31mname\u001b[1;0m of the user: ")
         modify_query = "SELECT name FROM user Where name=%s"
         database.execute(modify_query, (modify_user,))
         if database.fetchall():
-            print("\t\t\tUser account found.....")
+            print("\t\t\tUser \u001b[1;31maccount found\u001b[1;0m.....")
             time.sleep(1)
             os.system("cls||clear")
             Enter = "0"
@@ -193,25 +193,80 @@ class Admin(SignInPage, NewUser):
                 while Enter == "0" or Enter > "5":
                     os.system("cls||clear")
                     print("\t\t\tWhat operations do you want to perform?")
-                    print("\t\t\t1 --> Update Name")
-                    print("\t\t\t2 --> Update Password")
-                    print("\t\t\t3 --> Update Bank Balance")
-                    print("\t\t\t4 --> Update Account Type")
-                    print("\t\t\t5 --> Update User's Age")
-                    Enter = input("\t\t\tEnter <1-5>: ")
+                    print("\t\t\t1 \u001b[1;31m-->\u001b[1;0m Update Name")
+                    print("\t\t\t2 \u001b[1;31m-->\u001b[1;0m Update Password")
+                    print("\t\t\t3 \u001b[1;31m-->\u001b[1;0m Update Bank Balance")
+                    print("\t\t\t4 \u001b[1;31m-->\u001b[1;0m Update Account Type")
+                    print("\t\t\t5 \u001b[1;31m-->\u001b[1;0m Update User's Age")
+                    Enter = input("\t\t\tEnter \u001b[1;31m<1-5>\u001b[1;0m: ")
             if Enter == "1":
                 os.system("cls||clear")
-                new_name = input("\t\t\tEnter New Name for the user: ")
-                update_Name = ("UPDATE user SET name = %s WHERE name=%s", ((new_name,), (modify_user,)))
-                database.execute(update_Name)
-                new_content = database.fetchall()
+                new_Age = input("\t\t\tEnter \u001b[1;31mNew Name\u001b[1;0m for the user: ")
+                update_Name = ("UPDATE user SET name = %s WHERE name=%s")
+                database.execute(update_Name, (new_Age, modify_user,))
+                db.commit()
                 if not database.fetchall():
-                    print("\t\t\tUsername modified Successfully")
-                    print("\t\t\tPress Any Key to continue...")
+                    print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
+                    print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+                    m.getch()
+                else:
+                    print("\t\t\tError!")
+                    m.getch()
+            elif Enter == "2":
+                os.system("cls||clear")
+                new_Age = input("\t\t\tEnter \u001b[1;31mNew Password\u001b[1;0m for the user: ")
+                update_Name = ("UPDATE user SET password = %s WHERE name=%s")
+                database.execute(update_Name, (new_Age, modify_user,))
+                db.commit()
+                if not database.fetchall():
+                    print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
+                    print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+                    m.getch()
+                else:
+                    print("\t\t\t\u001b[1;31mError!\u001b[1;0m")
+                    m.getch()
+            elif Enter == "3":
+                os.system("cls||clear")
+                new_Age = input("\t\t\tEnter \u001b[1;31mNew Bank Balance\u001b[1;0m for the user: ")
+                update_Name = ("UPDATE user SET bankbal = %s WHERE name=%s")
+                database.execute(update_Name, (new_Age, modify_user,))
+                db.commit()
+                if not database.fetchall():
+                    print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
+                    print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+                    m.getch()
+                else:
+                    print("\t\t\t\u001b[1;31mError!\u001b[1;0m")
+                    m.getch()
+            elif Enter == "4":
+                os.system("cls||clear")
+                new_Age = input("\t\t\tEnter \u001b[1;31mNew Bank Balance\u001b[1;0m for the user: ")
+                update_Name = ("UPDATE user SET account_Type = %s WHERE name=%s")
+                database.execute(update_Name, (new_Age, modify_user,))
+                db.commit()
+                if not database.fetchall():
+                    print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
+                    print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+                    m.getch()
+                else:
+                    print("\t\t\t\u001b[1;31mError!\u001b[1;0m")
+                    m.getch()
+            elif Enter == "5":
+                os.system("cls||clear")
+                new_Age = input("\t\t\tEnter \u001b[1;31mNew Bank Balance\u001b[1;0m for the user: ")
+                update_Name = ("UPDATE user SET age = %s WHERE name=%s")
+                database.execute(update_Name, (new_Age, modify_user,))
+                db.commit()
+                if not database.fetchall():
+                    print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
+                    print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+                    m.getch()
+                else:
+                    print("\t\t\t\u001b[1;31mError!\u001b[1;0m")
                     m.getch()
         else:
-            print("\t\t\tUser NOT found\n\t\t\tTry Again Later!\n")
-            print("\t\t\tPress ANY key to continue\n")
+            print("\t\t\tUser \u001b[1;31mNOT Found\u001b[1;0m\n")
+            print("\t\t\tPress \u001b[1;31mANY\u001b[1;0m key to continue\n")
             m.getch()
 
 
