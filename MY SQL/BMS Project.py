@@ -56,14 +56,16 @@ class SignInPage:
         matchpass = "SELECT password FROM user WHERE password=%s"
         database.execute(matchpass, (self.user_pass,)) #Check's if the password is present in the database! If it's present it loads it!
         check = database.fetchall()
-        print(check)
         cred = [(('{}').format(self.user_pass),)]
-        print(cred)
         if check == cred:
-            print("\t\t\tYou have logged in successfully as", self.user_name)
-            m.getch()
+            SignInPage.Logged = True
+            print("\t\t\tYou have logged in successfully as\u001b[1;31m", self.user_name, "\u001b[1;0m")
+            time.sleep(.25)
         else:
-            print("\t\t\tYou've entered incorrect credentials")
+            SignInPage.Logged = False
+            print("\t\t\tYou've entered \u001b[1;31mincorrect credentials\u001b[1;0m")
+            print("\t\t\tForcing session \u001b[1;31m(logged out)\u001b[1;0m\n")
+            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key To Continue...")
             m.getch()
 class NewUser:
     created = datetime.now()
@@ -98,7 +100,6 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
     username = "0"
     password = "0"
     admin_choice = 0
-    admin_log = True
     signin = SignInPage()
 
     def adminmenu(self):
@@ -106,23 +107,16 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
         while end == "y":
             os.system("cls||clear")
             print("\t\t\t1. Delete Account")  # Allows admin to delete an account
-            # Allows admin to view) all the list
-            print("\t\t\t2. Accounts lists")
-            # Allows admin to view specific account's detials.
-            print("\t\t\t3. Specific Accounts Details")
-            # Allows admin to modify an account
-            print("\t\t\t4. Modify an Account")
+            print("\t\t\t2. Accounts lists")  # Allows admin to view) all the list            
+            print("\t\t\t3. Specific Accounts Details") # Allows admin to view specific account's detials.    
+            print("\t\t\t4. Modify an Account") # Allows admin to modify an account
             print("\t\t\t5. Logout")  # Logs out
             print("\t\t\t6. Turn Off Program")  # Exits
-            self.admin_choice = int(
-                input("\u001b[1;31m\t\t\tEnter <1-7>: \u001b[1;0m: ")
-            )
+            self.admin_choice = int(input("\u001b[1;31m\t\t\tEnter <1-7>: \u001b[1;0m: "))
             if self.admin_choice == 0 or self.admin_choice > 7:
                 while self.admin_choice == 0 or self.admin_choice > 7:
                     os.system("cls||clear")
-                    self.admin_choice = int(
-                        input("\u001b[1;31m\t\t\tEnter <1-7>: \u001b[1;0m: ")
-                    )
+                    self.admin_choice = int(input("\u001b[1;31m\t\t\tEnter <1-7>: \u001b[1;0m: "))
             if self.admin_choice == 1:
                 Admin.case1_delete_account()
                 end = "y"
@@ -290,12 +284,12 @@ def main():
             Signin.adminlogin()
             if SignInPage.Logged == True:
                 Admins.adminmenu()
-                if Admins.admin_log == False:
-                    continue
             else:
                 continue
         elif Signin.user_choice == 2:
             Signin.userlogin()
+            if SignInPage.Logged == True:
+                Admins.adminmenu()
         elif Signin.user_choice == 3:
             newuser.new_user_createaccount()
         elif Signin.user_choice == 4:
