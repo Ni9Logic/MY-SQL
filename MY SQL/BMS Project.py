@@ -9,7 +9,6 @@ database = db.cursor()
 
 # I am gonna learn & implement mySQL on this now!
 
-
 class SignInPage:
     user_choice = "1"
     admin_name = "0"
@@ -57,6 +56,7 @@ class SignInPage:
             SignInPage.Logged = False
     def userlogin(self):
         os.system("cls||clear")
+        check = "0"
         self.user_name = input("\t\t\tEnter \u001b[1;31mUsername\u001b[1;0m: ")
         self.user_pass = input("\t\t\tEnter \u001b[1;31mPassword\u001b[1;0m: ")
         matchpass = "SELECT password FROM user WHERE password=%s"
@@ -119,8 +119,8 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
             print("\t\t\t\u001b[1;31m5\u001b[1;0m. Logout")  # Logs out
             print("\t\t\t\u001b[1;31m6\u001b[1;0m. Turn Off Program")  # Exits
             self.admin_choice = str(input("\u001b[1;31m\t\t\tEnter <1-6>: \u001b[1;0m: "))
-            if self.admin_choice == "0" or self.admin_choice > "0" or len(self.admin_choice) == 0:
-                while self.admin_choice == "0" or self.admin_choice > "0" or len(self.admin_choice) == 0:
+            if self.admin_choice == "0" or self.admin_choice > "6" or len(self.admin_choice) == 0:
+                while self.admin_choice == "0" or self.admin_choice > "6" or len(self.admin_choice) == 0:
                     os.system("cls||clear")
                     print("\t\t\t\u001b[1;31m1\u001b[1;0m. Delete Account")  # Allows admin to delete an account
                     print("\t\t\t\u001b[1;31m2\u001b[1;0m. Accounts lists")  # Allows admin to view) all the list            
@@ -307,6 +307,7 @@ class User(SignInPage, NewUser):
                     print("\t\t\t\u001b[1;31m6\u001b[1;0m. Turn Off Program")  # Exits
                     self.user_choice = str(input("\u001b[1;31m\t\t\tEnter <1-6>: \u001b[1;0m: "))
             if self.user_choice == "1":
+                User.case1_Check_Account_Details()
                 end = "y"
             elif self.user_choice == "2":
                 end = "y"
@@ -319,6 +320,23 @@ class User(SignInPage, NewUser):
                 break
             elif self.user_choice == "6":
                 quit()
+    def case1_Check_Account_Details():
+        os.system("cls||clear")
+        confirm_password = input("\t\t\tKindly \u001b[1;31mRe-Enter\u001b[1;0m Your \u001b[1;31mpassword\u001b[1;0m to confirm your \u001b[1;31midentity\u001b[1;0m: ")
+        account_details = "SELECT * FROM user WHERE password=%s"
+        database.execute(account_details, (confirm_password,))
+        display_user_Record  = database.fetchall()
+        database.execute(account_details, (confirm_password,))
+        if database.fetchall():
+            os.system("cls||clear")
+            print("\t\t\tHere is the \u001b[1;31mLIST\u001b[1;0m your \u001b[1;31maccount details\u001b[1;0m")
+            print("\n\t\t\t", display_user_Record)
+            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
+            m.getch()
+        else:
+            print("\t\t\t\u001b[1;31mIncorrect Password\u001b[1;0m")
+            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
+            m.getch()
 
 def main():
     end = "y"
