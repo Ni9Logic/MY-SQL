@@ -58,10 +58,11 @@ class SignInPage:
         check = "0"
         self.user_name = input("\t\t\tEnter \u001b[1;31mUsername\u001b[1;0m: ")
         self.user_pass = input("\t\t\tEnter \u001b[1;31mPassword\u001b[1;0m: ")
-        matchpass = "SELECT password FROM user WHERE password=%s"
-        database.execute(matchpass, (self.user_pass,)) #Check's if the password is present in the database! If it's present it loads it!
-        check = database.fetchall()
-        cred = [(('{}').format(self.user_pass),)]
+
+        matchpass = "SELECT password FROM user WHERE name=%s"
+        database.execute(matchpass, (self.user_name,)) #Check's if the password is present in the database! If it's present it loads it!
+        check = database.fetchone()
+        cred = (('{}').format(self.user_pass),)
         if check == cred:
             SignInPage.Logged = True
             print("\t\t\tYou have logged in successfully as\u001b[1;31m", self.user_name, "\u001b[1;0m")
@@ -284,6 +285,7 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
             m.getch()
 class User(SignInPage, NewUser):
     user_choice = "0"
+
     def usermenu(self):
         end = "y"
         while end == "y":
@@ -309,6 +311,7 @@ class User(SignInPage, NewUser):
                 User.case1_Check_Account_Details()
                 end = "y"
             elif self.user_choice == "2":
+                User.case2_Withdraw_Amount()
                 end = "y"
             elif self.user_choice == "3":
                 end = "y"
@@ -330,6 +333,27 @@ class User(SignInPage, NewUser):
             os.system("cls||clear")
             print("\t\t\tHere is the \u001b[1;31mLIST\u001b[1;0m your \u001b[1;31maccount details\u001b[1;0m")
             print("\n\t\t\t", display_user_Record)
+            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
+            m.getch()
+        else:
+            print("\t\t\t\u001b[1;31mIncorrect Password\u001b[1;0m")
+            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
+            m.getch()
+    def case2_Withdraw_Amount():
+        os.system("cls||clear")
+        confirm_password = input("\t\t\tKindly \u001b[1;31mRe-Enter\u001b[1;0m Your \u001b[1;31mpassword\u001b[1;0m to confirm your \u001b[1;31midentity\u001b[1;0m: ")
+        withdraw_query = "SELECT bankbal FROM user WHERE password=%s"
+        database.execute(withdraw_query, (confirm_password,))
+        get_bankbal_fromdb  = database.fetchone()
+        print("\t\t\t", get_bankbal_fromdb)
+        m.getch()
+        database.execute(withdraw_query, (confirm_password,))
+        if database.fetchall():
+            os.system("cls||clear")
+            print("\t\t\tYou've successfully logged in...")
+            time.sleep(.50)
+            os.system("cls||clear")
+            
             print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
             m.getch()
         else:
