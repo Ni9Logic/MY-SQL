@@ -16,7 +16,6 @@ class SignInPage:
     user_name = "0"
     user_pass = "0"
     Logged = False
-
     def login(self):
         os.system("cls||clear")
         print("\t\t\tWelcome to \u001b[1;31mSUNUDSS KA BANK! HAHAHA MERA BANK\u001b[1;0m")
