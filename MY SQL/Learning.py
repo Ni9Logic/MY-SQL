@@ -1,24 +1,15 @@
-import mysql.connector
-from datetime import datetime
-
-db1 = mysql.connector.connect(host="localhost", user="root", passwd="root", database = "banking")
-
-db = db1.cursor()
-
-def createtable():
-    db.execute("CREATE TABLE User (created datetime, account_ID int primary key AUTO_INCREMENT, name VARCHAR(50) NOT NULL, age smallint NOT NULL, password VARCHAR(50) NOT NULL, bankbal double NOT NULL, account_Type VARCHAR(20) NOT NULL)")
-
-
-def CreateUser():
-    Created = datetime.now()
-    Name = input("Enter Name for the user: ")
-    Age = input("Enter Age for the user: ")
-    Password = input("Enter Password for the user: ")
-    BankBalance = input("Enter Bank Balance for the user: ")
-    AccountType = input("Enter Account Type for the user: ")
-    db.execute("INSERT INTO User (created, name, age, password, bankbal, account_Type) VALUES(%s, %s, %s, %s, %s, %s)", (Created, Name, Age, Password, BankBalance, AccountType))
-    db1.commit()
-
-createtable()
-#CreateUser()
-db1.commit()
+while True:
+    num = input("Please enter a number ")
+    try:
+        val = int(num)
+        print("Input is an integer number.")
+        print("Input number is: ", val)
+        break;
+    except ValueError:
+        try:
+            float(num)
+            print("Input is an float number.")
+            print("Input number is: ", val)
+            break;
+        except ValueError:
+            print("This is not a number. Please enter a valid number")

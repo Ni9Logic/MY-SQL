@@ -339,39 +339,38 @@ class User(SignInPage, NewUser): #USER CLASS DONE!
         withdraw_query = "SELECT bankbal FROM user WHERE name=%s"
         database.execute(withdraw_query, (SignInPage.user_name,))
         get_bankbal_fromdb  = database.fetchone()
-        print("\t\t\tYour Current Bank Balance is:\u001b[1;31m", get_bankbal_fromdb ,"\u001b[1;0m rs/-")
+        print("\t\t\tYour Current Bank Balance is:\u001b[1;31m", get_bankbal_fromdb[0] ,"\u001b[1;0m rs/-")
         bankbal = get_bankbal_fromdb[0]
-        withdraw = float(input("\t\t\tEnter the \u001b[1;31mamount\u001b[1;0m you want to \u001b[1;31mwithdraw\u001b[1;0m: "))
-        if withdraw > bankbal or withdraw == 0:
-            print("\t\t\tYou are \u001b[1;31mentering\u001b[1;0m amount \u001b[1;31mgreater\u001b[1;0m than your \u001b[1;31mcurrent balance\u001b[1;0m or You are entering \u001b[1;31minvalid value\u001b[1;0m.")
-            print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
-        else:
-            new_bankbal = bankbal - withdraw
-            update_BankBal = ("UPDATE user SET bankbal = %s WHERE name=%s")
-            database.execute(update_BankBal, (new_bankbal, SignInPage.user_name,))
-            db.commit()
-            print("\t\t\tYour New Balance is:\u001b[1;31m", new_bankbal,"\u001b[1;0m")
-            print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+        withdraw = 0
+        if withdraw <= 0 or withdraw > bankbal:
+            while withdraw <= 0 or withdraw > bankbal:
+                withdraw = float(input("\t\t\tEnter the \u001b[1;31mamount\u001b[1;0m you want to \u001b[1;31mwithdraw\u001b[1;0m: "))
+        new_bankbal = bankbal - withdraw
+        update_BankBal = ("UPDATE user SET bankbal = %s WHERE name=%s")
+        database.execute(update_BankBal, (new_bankbal, SignInPage.user_name,))
+        db.commit()
+        print("\t\t\tYour New Balance is:\u001b[1;31m", new_bankbal,"\u001b[1;0m")
+        print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
         m.getch()
     def case3_Deposit_amount():
         os.system("cls||clear")
         withdraw_query = "SELECT bankbal FROM user WHERE name=%s"
         database.execute(withdraw_query, (SignInPage.user_name,))
         get_bankbal_fromdb  = database.fetchone()
-        print("\t\t\tYour Current Bank Balance is:\u001b[1;31m", get_bankbal_fromdb ,"\u001b[1;0m rs/-")
+        print("\t\t\tYour Current Bank Balance is:\u001b[1;31m", get_bankbal_fromdb[0] ,"\u001b[1;0m rs/-")
         bankbal = get_bankbal_fromdb[0]
-        deposit = float(input("\t\t\tEnter the \u001b[1;31mamount\u001b[1;0m you want to \u001b[1;31mdeposit\u001b[1;0m: "))
-        if deposit == 0:
-            print("\t\t\tYou are entering \u001b[1;31minvalid value\u001b[1;0m.")
-            print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
-        else:
-            new_bankbal = bankbal + deposit
-            update_BankBal = ("UPDATE user SET bankbal = %s WHERE name=%s")
-            database.execute(update_BankBal, (new_bankbal, SignInPage.user_name,))
-            db.commit()
-            print("\t\t\tYour New Balance is:\u001b[1;31m", new_bankbal,"\u001b[1;0m")
-            print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
-            m.getch()        
+        deposit = 0
+        if deposit <= 0:
+            while deposit <= 0:
+                deposit = float(input("\t\t\tEnter the \u001b[1;31mamount\u001b[1;0m you want to \u001b[1;31mdeposit\u001b[1;0m: "))
+
+        new_bankbal = bankbal + deposit
+        update_BankBal = ("UPDATE user SET bankbal = %s WHERE name=%s")
+        database.execute(update_BankBal, (new_bankbal, SignInPage.user_name,))
+        db.commit()
+        print("\t\t\tYour New Balance is:\u001b[1;31m", new_bankbal,"\u001b[1;0m")
+        print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+        m.getch()        
     def case4_Transfer_amount():
         # FOR USER 1
         os.system("cls||clear")
@@ -381,33 +380,29 @@ class User(SignInPage, NewUser): #USER CLASS DONE!
         print("\t\t\tYour Current Bank Balance is:\u001b[1;31m", get_bankbal_fromdb[0] ,"\u001b[1;0m rs/-")
         bankbal_user1 = get_bankbal_fromdb[0] #TOTAL BALANCE OF USER 1
         transfer_amount = 0
-        if transfer_amount == 0:
-            while transfer_amount == 0:
-                transfer_amount = float(input("\t\t\tEnter the amount to transfer: "))
-        user2 = input("\t\t\tEnter the other person's name: ")
+        if transfer_amount <= 0 or transfer_amount > bankbal_user1:
+            while transfer_amount <= 0 or transfer_amount > bankbal_user1:
+                transfer_amount = float(input("\t\t\tEnter the \u001b[1;31mamount\u001b[1;0m to \u001b[1;31mtransfer\u001b[1;0m: "))
+        user2 = input("\t\t\tEnter the \u001b[1;31mother person's\u001b[1;0m name: ")
         search_query = "SELECT name FROM user WHERE name=%s"
         database.execute(search_query, (user2,))
         if database.fetchone():
-            print("\t\t\tOperation Successfully Performed")
-            if transfer_amount > bankbal_user1 or transfer_amount == 0:
-                print("\t\t\tYou are entering invalid amount")
-                m.getch()
-            else:
-                total_bankbbal_user1 = bankbal_user1 - transfer_amount
-                update_bankbal_user1 = "UPDATE user SET bankbal=%s WHERE name=%s"
-                database.execute(update_bankbal_user1, (total_bankbbal_user1, SignInPage.user_name,))
-                db.commit()
+            print("\t\t\tOperation \u001b[1;31mSuccessfully Performed\u001b[1;0m")
+            total_bankbbal_user1 = bankbal_user1 - transfer_amount
+            update_bankbal_user1 = "UPDATE user SET bankbal=%s WHERE name=%s"
+            database.execute(update_bankbal_user1, (total_bankbbal_user1, SignInPage.user_name,))
+            db.commit()
                 # WORK FOR USER 1 IS DONE
-                search_query = ("SELECT bankbal FROM user WHERE name=%s")
-                database.execute(search_query, (user2,))
-                get_bankbal_fromdb2  = database.fetchone()
-                bankbal_user2 = get_bankbal_fromdb2[0]
-                total_bankbbal_user2 = bankbal_user2 + transfer_amount
-                update_bankbal_user2 = "UPDATE user SET bankbal=%s WHERE name=%s"
-                database.execute(update_bankbal_user2, (total_bankbbal_user2, user2,))
-                db.commit()
-                print("\t\t\tYour New Balance after transfer_amount is: ", total_bankbbal_user1)
-                m.getch()
+            search_query = ("SELECT bankbal FROM user WHERE name=%s")
+            database.execute(search_query, (user2,))
+            get_bankbal_fromdb2  = database.fetchone()
+            bankbal_user2 = get_bankbal_fromdb2[0]
+            total_bankbbal_user2 = bankbal_user2 + transfer_amount
+            update_bankbal_user2 = "UPDATE user SET bankbal=%s WHERE name=%s"
+            database.execute(update_bankbal_user2, (total_bankbbal_user2, user2,))
+            db.commit()
+            print("\t\t\tYour New Balance after transfer_amount is: ", total_bankbbal_user1)
+            m.getch()
         else:
             print("\t\t\tNo such user found in database\n")
             m.getch()
