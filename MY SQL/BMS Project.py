@@ -132,7 +132,13 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
         end = "y"
         while end == "y":
             os.system("cls||clear")
-            self.admin_choice == "0"
+            print("\t\t\t\u001b[1;31m1\u001b[1;0m. Delete Account")  # Allows admin to delete an account
+            print("\t\t\t\u001b[1;31m2\u001b[1;0m. Accounts lists")  # Allows admin to view) all the list            
+            print("\t\t\t\u001b[1;31m3\u001b[1;0m. Specific Accounts Details") # Allows admin to view specific account's detials.    
+            print("\t\t\t\u001b[1;31m4\u001b[1;0m. Modify an Account") # Allows admin to modify an account
+            print("\t\t\t\u001b[1;31m5\u001b[1;0m. Logout")  # Logs out
+            print("\t\t\t\u001b[1;31m6\u001b[1;0m. Turn Off Program")  # Exits
+            self.admin_choice = str(input("\u001b[1;31m\t\t\tEnter <1-6>: \u001b[1;0m: "))
             if self.admin_choice == "0" or self.admin_choice > "6" or len(self.admin_choice) == 0:
                 while self.admin_choice == "0" or self.admin_choice > "6" or len(self.admin_choice) == 0:
                     os.system("cls||clear")
@@ -285,7 +291,12 @@ class User(SignInPage, NewUser): #USER CLASS DONE!
         end = "y"
         while end == "y":
             os.system("cls||clear")
-            self.user_choice == "0"
+            print("\t\t\t\u001b[1;31m1\u001b[1;0m. Check Account Details")  # Allows admin to delete an account
+            print("\t\t\t\u001b[1;31m2\u001b[1;0m. Withdraw Amount")  # Allows admin to view) all the list            
+            print("\t\t\t\u001b[1;31m3\u001b[1;0m. Deposit Amount") # Allows admin to view specific account's detials.    
+            print("\t\t\t\u001b[1;31m4\u001b[1;0m. Transfer Amount") # Allows admin to modify an account
+            print("\t\t\t\u001b[1;31m5\u001b[1;0m. Logout")  # Logs out
+            print("\t\t\t\u001b[1;31m6\u001b[1;0m. Turn Off Program")  # Exits
             self.user_choice = str(input("\u001b[1;31m\t\t\tEnter <1-6>: \u001b[1;0m: "))
             if self.user_choice == "0" or self.user_choice > "6" or len(self.user_choice) == 0:
                 while self.user_choice == "0" or self.user_choice > "6" or len(self.user_choice) == 0:
@@ -373,13 +384,13 @@ class User(SignInPage, NewUser): #USER CLASS DONE!
         if transfer_amount == 0:
             while transfer_amount == 0:
                 transfer_amount = float(input("\t\t\tEnter the amount to transfer: "))
-        user2 = input("\t\t\tEnter the \u001b[1;31mother person's\u001b[1;0m name: ")
+        user2 = input("\t\t\tEnter the other person's name: ")
         search_query = "SELECT name FROM user WHERE name=%s"
         database.execute(search_query, (user2,))
         if database.fetchone():
             print("\t\t\tOperation Successfully Performed")
             if transfer_amount > bankbal_user1 or transfer_amount == 0:
-                print("\t\t\tYou are entering \u001b[1;31minvalid amount\u001b[1;0m")
+                print("\t\t\tYou are entering invalid amount")
                 m.getch()
             else:
                 total_bankbbal_user1 = bankbal_user1 - transfer_amount
@@ -395,10 +406,10 @@ class User(SignInPage, NewUser): #USER CLASS DONE!
                 update_bankbal_user2 = "UPDATE user SET bankbal=%s WHERE name=%s"
                 database.execute(update_bankbal_user2, (total_bankbbal_user2, user2,))
                 db.commit()
-                print("\t\t\tYour \u001b[1;31mNew Balance\u001b[1;0m after \u001b[1;31mtransfer_amount\u001b[1;0m is: \u001b[1;31m", total_bankbbal_user1, "\u001b[1;0m")
+                print("\t\t\tYour New Balance after transfer_amount is: ", total_bankbbal_user1)
                 m.getch()
         else:
-            print("\t\t\tNo such user \u001b[1;31mfound\u001b[1;0m in \u001b[1;31mdatabase\u001b[1;0m\n")
+            print("\t\t\tNo such user found in database\n")
             m.getch()
 
 def main():
