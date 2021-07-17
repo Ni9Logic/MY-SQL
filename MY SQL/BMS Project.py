@@ -219,8 +219,8 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
                     Enter = input("\t\t\tEnter \u001b[1;31m<1-5>\u001b[1;0m: ")
             if Enter == "1":
                 os.system("cls||clear")
-                new_Name = input("\t\t\tEnter \u001b[1;31mNew User's Age\u001b[1;0m for the user: ")
-                update_Name = ("UPDATE user SET age = %s WHERE name=%s")
+                new_Name = input("\t\t\tEnter \u001b[1;31mNew Username\u001b[1;0m for the user: ")
+                update_Name = ("UPDATE user SET name = %s WHERE name=%s")
                 database.execute(update_Name, (new_Name, modify_user,))
                 db.commit()                
                 print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
@@ -228,8 +228,8 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
                 m.getch()
             elif Enter == "2":
                 os.system("cls||clear")
-                new_Pass = input("\t\t\tEnter \u001b[1;31mNew User's Age\u001b[1;0m for the user: ")
-                update_Pass = ("UPDATE user SET age = %s WHERE name=%s")
+                new_Pass = input("\t\t\tEnter \u001b[1;31mNew User's Password\u001b[1;0m for the user: ")
+                update_Pass = ("UPDATE user SET password = %s WHERE name=%s")
                 database.execute(update_Pass, (new_Pass, modify_user,))
                 db.commit()                
                 print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
@@ -237,8 +237,8 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
                 m.getch()
             elif Enter == "3":
                 os.system("cls||clear")
-                new_BankBal = input("\t\t\tEnter \u001b[1;31mNew User's Age\u001b[1;0m for the user: ")
-                update_BankBal = ("UPDATE user SET age = %s WHERE name=%s")
+                new_BankBal = input("\t\t\tEnter \u001b[1;31mNew User's Bank Balance\u001b[1;0m for the user: ")
+                update_BankBal = ("UPDATE user SET bankbal = %s WHERE name=%s")
                 database.execute(update_BankBal, (new_BankBal, modify_user,))
                 db.commit()                
                 print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
@@ -246,8 +246,8 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
                 m.getch()
             elif Enter == "4":
                 os.system("cls||clear")
-                new_Acc_Type = input("\t\t\tEnter \u001b[1;31mNew User's Age\u001b[1;0m for the user: ")
-                update_Acc_Type = ("UPDATE user SET age = %s WHERE name=%s")
+                new_Acc_Type = input("\t\t\tEnter \u001b[1;31mNew User's Account Type\u001b[1;0m for the user: ")
+                update_Acc_Type = ("UPDATE user SET account_Type = %s WHERE name=%s")
                 database.execute(update_Acc_Type, (new_Acc_Type, modify_user,))
                 db.commit()                
                 print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
@@ -319,9 +319,18 @@ class User(SignInPage, NewUser):
         withdraw_query = "SELECT bankbal FROM user WHERE name=%s"
         database.execute(withdraw_query, (SignInPage.user_name,))
         get_bankbal_fromdb  = database.fetchone()
-        print("\t\t\tYour Current Bank Balance is:", get_bankbal_fromdb ," rs/-")
-        withdraw = float(input("Enter the amount you want to withdraw: "))
-        
+        print("\t\t\tYour Current Bank Balance is:\u001b[1;31m", get_bankbal_fromdb ,"\u001b[1;0m rs/-")
+        bankbal = get_bankbal_fromdb[0]
+        withdraw = float(input("\t\t\tEnter the \u001b[1;31mamount\u001b[1;0m you want to \u001b[1;31mwithdraw\u001b[1;0m: "))
+        if withdraw > bankbal or withdraw == 0:
+            print("\t\t\tYou are \u001b[1;31mentering\u001b[1;0m amount \u001b[1;31mgreater\u001b[1;0m than your \u001b[1;31mcurrent balance\u001b[1;0m or You are entering \u001b[1;31minvalid value\u001b[1;0m.")
+            print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+        else:
+            new_bankbal = bankbal - withdraw
+            update_BankBal = ("UPDATE user SET bankbal = %s WHERE name=%s")
+            database.execute(update_BankBal, (new_bankbal, SignInPage.user_name,))
+            db.commit()
+            print("\t\t\tYour New Balance is:\u001b[1;31m", new_bankbal,"\u001b[1;0m")
         m.getch()        
 
 def main():
