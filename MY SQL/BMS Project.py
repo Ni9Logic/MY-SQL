@@ -97,16 +97,16 @@ class NewUser:
             else:
                 self.created = datetime.now()
                 self.new_user_age = "0"
-                if self.new_user_age == "0" or len(self.new_user_age) == 0:
-                    while self.new_user_age == "0" or len(self.new_user_age) == 0:
+                if self.new_user_age == "0" or len(self.new_user_age) == 0 or not self.new_user_age.isdigit():
+                    while self.new_user_age == "0" or len(self.new_user_age) == 0 or not self.new_user_age.isdigit():
                         self.new_user_age = input("\t\t\tEnter\u001b[1;31m Age\u001b[1;0m: ")
                 self.new_user_pass = "0"
                 if self.new_user_pass == "0" or len(self.new_user_pass) == 0:
                     while self.new_user_pass == "0" or len(self.new_user_pass) == 0:
                         self.new_user_pass = input("\t\t\tEnter\u001b[1;31m Password\u001b[1;0m For User: ")
                 self.new_user_BankBal = "0"
-                if self.new_user_BankBal == "0" or len(self.new_user_BankBal) == 0:
-                    while self.new_user_BankBal == "0" or len(self.new_user_BankBal) == 0:
+                if self.new_user_BankBal == "0" or len(self.new_user_BankBal) == 0 or not self.new_user_BankBal.isdigit():
+                    while self.new_user_BankBal == "0" or len(self.new_user_BankBal) == 0 or not self.new_user_BankBal.isdigit():
                         self.new_user_BankBal = input("\t\t\tEnter\u001b[1;31m Initial_Deposit\u001b[1;0m For User: ")
                 print("\t\t\tThere are \u001b[1;31mTwo Types\u001b[1;0m of Banking Accounts\n\t\t\t1 \u001b[1;31m-->\u001b[1;0m Savings \n\t\t\t2 \u001b[1;31m-->\u001b[1;0m Current")
                 self.new_user_Account_Type = "0"
@@ -114,9 +114,9 @@ class NewUser:
                     while self.new_user_Account_Type == "0" or len(self.new_user_Account_Type) == 0:
                         self.new_user_Account_Type = input("\t\t\tEnter\u001b[1;31m Account_Type\u001b[1;0m For User: ")
                         if self.new_user_Account_Type == "1":
-                            self.new_user_Account_Type == "Savings"
+                            self.new_user_Account_Type = "Savings"
                         elif self.new_user_Account_Type == "2":
-                            self.new_user_Account_Type == "Current"
+                            self.new_user_Account_Type = "Current"
                 print("\t\t\tAccount \u001b[1;31mSuccessfully Created\u001b[1;0m\n\t\t\tPress Any Key to continue")
                 m.getch()
                 # Uploading into database
