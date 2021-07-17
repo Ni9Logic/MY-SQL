@@ -172,9 +172,9 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
         display = "SELECT account_ID, name FROM user"
         database.execute(display)
         displayall = database.fetchall()
-        if not database.fetchall():
-            for row in displayall:
-                print("\t\t\t", row)
+        database.execute(display)
+        if database.fetchall():
+            print("\t\t\t", displayall)
             print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
             m.getch()
         else:
@@ -185,12 +185,13 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
         os.system("cls||clear")
         search = input("\t\t\tEnter the \u001b[1;31mname\u001b[1;0m of the user: ")
         search_query = "SELECT * FROM user WHERE name=%s"
+        display = []
         database.execute(search_query, (search,))
         display = database.fetchall()
-        if not database.fetchall():
+        database.execute(search_query, (search,))
+        if database.fetchall():
             print("\t\t\tHere's the \u001b[1;31mdata\u001b[1;0m below for user \u001b[1;31m", search, "\u001b[1;0m")
-            for row in display:
-                print("\t\t\t", row)
+            print("\t\t\t", display)
             print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
             m.getch()
         else:
@@ -218,71 +219,49 @@ class Admin(SignInPage, NewUser): #ADMIN CLASS DONE!
                     Enter = input("\t\t\tEnter \u001b[1;31m<1-5>\u001b[1;0m: ")
             if Enter == "1":
                 os.system("cls||clear")
-                new_Name = input("\t\t\tEnter \u001b[1;31mNew Name\u001b[1;0m for the user: ")
-                update_Name = ("UPDATE user SET name = %s WHERE name=%s")
+                new_Name = input("\t\t\tEnter \u001b[1;31mNew User's Age\u001b[1;0m for the user: ")
+                update_Name = ("UPDATE user SET age = %s WHERE name=%s")
                 database.execute(update_Name, (new_Name, modify_user,))
-                db.commit()
-                if not database.fetchall():
-                    print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
-                    print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
-                    m.getch()
-                else:
-                    print("\t\t\tError!")
-                    m.getch()
+                db.commit()                
+                print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
+                print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+                m.getch()
             elif Enter == "2":
                 os.system("cls||clear")
-                new_Pass = input("\t\t\tEnter \u001b[1;31mNew Password\u001b[1;0m for the user: ")
-                update_Pass = ("UPDATE user SET password = %s WHERE name=%s")
+                new_Pass = input("\t\t\tEnter \u001b[1;31mNew User's Age\u001b[1;0m for the user: ")
+                update_Pass = ("UPDATE user SET age = %s WHERE name=%s")
                 database.execute(update_Pass, (new_Pass, modify_user,))
-                db.commit()
-                if not database.fetchall():
-                    print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
-                    print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
-                    m.getch()
-                else:
-                    print("\t\t\t\u001b[1;31mError!\u001b[1;0m")
-                    m.getch()
+                db.commit()                
+                print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
+                print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+                m.getch()
             elif Enter == "3":
                 os.system("cls||clear")
-                new_BankBal = input("\t\t\tEnter \u001b[1;31mNew Bank Balance\u001b[1;0m for the user: ")
-                update_Bankbal = ("UPDATE user SET bankbal = %s WHERE name=%s")
-                database.execute(update_Bankbal, (new_BankBal, modify_user,))
-                db.commit()
-                if not database.fetchall():
-                    print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
-                    print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
-                    m.getch()
-                else:
-                    print("\t\t\t\u001b[1;31mError!\u001b[1;0m")
-                    m.getch()
+                new_BankBal = input("\t\t\tEnter \u001b[1;31mNew User's Age\u001b[1;0m for the user: ")
+                update_BankBal = ("UPDATE user SET age = %s WHERE name=%s")
+                database.execute(update_BankBal, (new_BankBal, modify_user,))
+                db.commit()                
+                print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
+                print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+                m.getch()
             elif Enter == "4":
                 os.system("cls||clear")
-                new_Acc_Type = input("\t\t\tEnter \u001b[1;31mNew Account Type\u001b[1;0m for the user: ")
-                update_Acc_Type = ("UPDATE user SET account_Type = %s WHERE name=%s")
+                new_Acc_Type = input("\t\t\tEnter \u001b[1;31mNew User's Age\u001b[1;0m for the user: ")
+                update_Acc_Type = ("UPDATE user SET age = %s WHERE name=%s")
                 database.execute(update_Acc_Type, (new_Acc_Type, modify_user,))
-                db.commit()
-                if not database.fetchall():
-                    print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
-                    print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
-                    m.getch()
-                else:
-                    print("\t\t\t\u001b[1;31mError!\u001b[1;0m")
-                    m.getch()
+                db.commit()                
+                print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
+                print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+                m.getch()
             elif Enter == "5":
                 os.system("cls||clear")
                 new_Age = input("\t\t\tEnter \u001b[1;31mNew User's Age\u001b[1;0m for the user: ")
                 update_Age = ("UPDATE user SET age = %s WHERE name=%s")
                 database.execute(update_Age, (new_Age, modify_user,))
-                db.commit()
-                database.execute(update_Age, (new_Age, modify_user,))
-                if database.fetchone():
-                    print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
-                    print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
-                    m.getch()
-                else:
-                    print("\t\t\tUser \u001b[1;31mNOT Found\u001b[1;0m\n")
-                    print("\t\t\tPress \u001b[1;31mANY\u001b[1;0m key to continue\n")
-                    m.getch()
+                db.commit()                
+                print("\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully")
+                print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
+                m.getch()
         else:
             print("\t\t\tUser \u001b[1;31mNOT Found\u001b[1;0m\n")
             print("\t\t\tPress \u001b[1;31mANY\u001b[1;0m key to continue\n")
