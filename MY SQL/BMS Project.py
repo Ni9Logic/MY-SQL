@@ -43,7 +43,7 @@ class SignInPage:
         self.admin_pass = input("\t\t\tEnter \u001b[1;31mPassword\u001b[1;0m: ")
         if self.admin_name == "admin" and self.admin_pass == "admin":
             os.system("cls||clear")
-            print("\n\t\t\tYou've Successfully \u001b[1;31mlogged\u001b[1;0m in as an \u001b[1;31madministrator\u001b[1;0m...")
+            print("\t\t\tYou've Successfully \u001b[1;31mlogged\u001b[1;0m in as an \u001b[1;31madministrator\u001b[1;0m...")
             time.sleep(1)
             SignInPage.Logged = True
         else:
