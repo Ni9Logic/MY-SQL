@@ -2,8 +2,6 @@ import os
 import time
 import msvcrt as m
 import mysql.connector
-from datetime import datetime
-from re import I
 
 db = mysql.connector.connect(host="localhost", user="root", passwd="root", database="banking")
 database = db.cursor()

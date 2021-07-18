@@ -1,5 +1,4 @@
 import os
-import time
 import msvcrt as m
 import mysql.connector
 import signinpage as sp
