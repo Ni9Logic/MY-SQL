@@ -2,12 +2,12 @@ import os
 import msvcrt as m
 import mysql.connector
 import signinpage as sp
-import newuser as nw
+from newuser import NewUser as nw
 
 db = mysql.connector.connect(host="localhost", user="root", passwd="root", database="banking")
 database = db.cursor()
 
-class User(sp.SignInPage, nw.NewUser): #USER CLASS DONE!
+class User(sp.SignInPage, nw): #USER CLASS DONE!
     user_choice = "0"
 
     def usermenu(self):
@@ -54,8 +54,14 @@ class User(sp.SignInPage, nw.NewUser): #USER CLASS DONE!
         database.execute(account_details, (sp.SignInPage.user_name,))
         display_user_Record  = database.fetchall()
         print("\t\t\tHere is the \u001b[1;31mLIST\u001b[1;0m your \u001b[1;31maccount details\u001b[1;0m")
-        print("\n\t\t\t", display_user_Record , "\n")
-        print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
+        print("\n\t\t\tAccount ID \u001b[1;31m-->\u001b[1;0m ", display_user_Record[0][0])
+        print("\t\t\tCreated \u001b[1;31m-->\u001b[1;0m ", display_user_Record[0][1])
+        print("\t\t\tName \u001b[1;31m-->\u001b[1;0m ", display_user_Record[0][2])
+        print("\t\t\tPassword \u001b[1;31m-->\u001b[1;0m ", display_user_Record[0][4])
+        print("\t\t\tAge \u001b[1;31m-->\u001b[1;0m ", display_user_Record[0][3])
+        print("\t\t\tBank Balance\u001b[1;31m-->\u001b[1;0m ", display_user_Record[0][5])
+        print("\t\t\tAccount Type\u001b[1;31m-->\u001b[1;0m ", display_user_Record[0][6])
+        print("\n\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
         m.getch()        
     def case2_Withdraw_Amount():
         os.system("cls||clear")

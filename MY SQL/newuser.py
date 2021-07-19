@@ -1,8 +1,9 @@
+from logging import NullHandler
 import os
 import msvcrt as m
 import mysql.connector
 from datetime import datetime
-from re import I
+from cryptography.fernet import Fernet
 
 db = mysql.connector.connect(host="localhost", user="root", passwd="root", database="banking")
 database = db.cursor()
@@ -52,6 +53,8 @@ class NewUser:
                             self.new_user_Account_Type = "Current"
                 print("\t\t\tAccount \u001b[1;31mSuccessfully Created\u001b[1;0m\n\t\t\tPress Any Key to continue")
                 m.getch()
+                # Encrypting User's password NEEDS TO BE DONE!
+
                 # Uploading into database
                 database.execute("INSERT INTO User (created, name, age, password, bankbal, account_Type) VALUES(%s, %s, %s, %s, %s, %s)", (self.created, self.new_user_name, self.new_user_age, self.new_user_pass, self.new_user_BankBal, self.new_user_Account_Type))
                 db.commit()
