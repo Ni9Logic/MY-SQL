@@ -5,8 +5,13 @@ import signinpage as sp
 import admin as a
 import users as u
 from newuser import NewUser as nw
-db = mysql.connector.connect(host="localhost", user="root", passwd="root", database="banking")
+
+db = mysql.connector.connect(host="localhost",
+                             user="root",
+                             passwd="root",
+                             database="banking")
 database = db.cursor()
+
 
 # I am gonna learn & implement mySQL on this now! #DONE...
 def main():
@@ -30,8 +35,11 @@ def main():
             else:
                 continue
         elif Signin.user_choice == "3":
-            nw.new_user_createaccount(nw) 
+            nw.new_user_createaccount(nw)
         elif Signin.user_choice == "4":
             quit()
     return 0
-main()  
+
+
+if __name__ == "__main__":
+    main()
