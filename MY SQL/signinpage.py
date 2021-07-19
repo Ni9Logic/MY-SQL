@@ -10,7 +10,7 @@ class SignInPage:
     user_choice = "1"
     admin_name = "0"
     admin_pass = "0"
-    user_name = "0"
+    user_name = "0"  
     user_pass = "0"
     Logged = False
     def login(self):
