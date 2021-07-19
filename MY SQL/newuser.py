@@ -1,7 +1,6 @@
 import os
 import msvcrt as m
 import mysql.connector
-import signinpage as sp
 from datetime import datetime
 from re import I
 
