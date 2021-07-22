@@ -104,7 +104,9 @@ class Admin(sp.SignInPage, nw.NewUser):  # ADMIN CLASS DONE!
         displayall = database.fetchall()
         database.execute(display)
         if database.fetchall():
-            print("\t\t\t", displayall)
+            for i in range(len(displayall)):
+                print(
+                    "\t\t\t", displayall[i][0], " \u001b[1;31m-->\u001b[1;0m ", displayall[i][1])
             print("\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue...")
             m.getch()
         else:
@@ -127,8 +129,22 @@ class Admin(sp.SignInPage, nw.NewUser):  # ADMIN CLASS DONE!
             print(
                 "\t\t\tHere's the \u001b[1;31mdata\u001b[1;0m below for user \u001b[1;31m",
                 search, "\u001b[1;0m")
-            print("\t\t\t", display)
-            print("\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
+            print(
+                "\n\t\t\tAccount ID \u001b[1;31m-->\u001b[1;0m ", display[0][0])
+            print("\t\t\tCreated \u001b[1;31m-->\u001b[1;0m ",
+                  display[0][1])
+            print("\t\t\tName \u001b[1;31m-->\u001b[1;0m ",
+                  display[0][2])
+            print(
+                "\t\t\tPassword \u001b[1;31m-->\u001b[1;0m ", display[0][4])
+            print("\t\t\tAge \u001b[1;31m-->\u001b[1;0m ",
+                  display[0][3])
+            print(
+                "\t\t\tBank Balance\u001b[1;31m-->\u001b[1;0m ", display[0][5])
+            print(
+                "\t\t\tAccount Type\u001b[1;31m-->\u001b[1;0m ", display[0][6])
+            print(
+                "\n\t\t\tPress \u001b[1;31mAny\u001b[1;0m Key to continue...")
             m.getch()
         else:
             print(
