@@ -120,6 +120,7 @@ class Admin(sp.SignInPage, nw.NewUser):  # ADMIN CLASS DONE!
         os.system("cls||clear")
         search = input(
             "\t\t\tEnter the \u001b[1;31mname\u001b[1;0m of the user: ")
+        m.getch()
         search_query = "SELECT * FROM user WHERE name=%s"
         display = []
         database.execute(search_query, (search, ))
