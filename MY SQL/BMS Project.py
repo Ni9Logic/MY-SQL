@@ -12,7 +12,6 @@ db = mysql.connector.connect(host="localhost",
                              database="banking")
 database = db.cursor()
 
-
 # I am gonna learn & implement mySQL on this now! #DONE...
 def main():
     end = "y"
