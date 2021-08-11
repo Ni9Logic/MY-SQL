@@ -215,23 +215,33 @@ class Admin(sp.SignInPage, nw.NewUser):  # ADMIN CLASS DONE!
                 )
                 m.getch()
             elif Enter == "3":
-                os.system("cls||clear")
-                new_BankBal = input(
-                    "\t\t\tEnter \u001b[1;31mNew User's Bank Balance\u001b[1;0m for the user: "
-                )
-                update_BankBal = ("UPDATE user SET bankbal = %s WHERE name=%s")
-                database.execute(update_BankBal, (
-                    new_BankBal,
-                    modify_user,
-                ))
-                db.commit()
-                print(
-                    "\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully"
-                )
-                print(
-                    "\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue..."
-                )
-                m.getch()
+                try:
+                    os.system("cls||clear")
+                    new_BankBal = input(
+                        "\t\t\tEnter \u001b[1;31mNew User's Bank Balance\u001b[1;0m for the user: "
+                    )
+                    update_BankBal = (
+                        "UPDATE user SET bankbal = %s WHERE name=%s")
+                    database.execute(update_BankBal, (
+                        new_BankBal,
+                        modify_user,
+                    ))
+                    db.commit()
+                    print(
+                        "\t\t\tUsername \u001b[1;31mmodified\u001b[1;0m Successfully"
+                    )
+                    print(
+                        "\t\t\tPress Any \u001b[1;31mKey\u001b[1;0m to continue..."
+                    )
+                    m.getch()
+                except:
+                    print(
+                        "\t\t\t\u001b[1;31mYou cannot put a string value inside an integer value\u001b[1;0m")
+                    print(
+                        "\t\t\t\u001b[1;31mPress Any key to Continue....\u001b[1;0m")
+                    m.getch()
+                    
+
             elif Enter == "4":
                 os.system("cls||clear")
                 new_Acc_Type = input(

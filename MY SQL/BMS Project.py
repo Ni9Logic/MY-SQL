@@ -13,7 +13,8 @@ db = mysql.connector.connect(host="localhost",
 database = db.cursor()
 
 # I am gonna learn & implement mySQL on this now! #DONE...
-def main():
+
+if __name__ == "__main__":
     end = "y"
     while end == "y":
         Signin = sp.SignInPage()
@@ -37,8 +38,3 @@ def main():
             nw.new_user_createaccount(nw)
         elif Signin.user_choice == "4":
             quit()
-    return 0
-
-
-if __name__ == "__main__":
-    main()
